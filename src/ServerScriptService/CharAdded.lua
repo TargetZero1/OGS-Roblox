@@ -1,0 +1,11 @@
+--Jav = game.ReplicatedStorage.Tools.Javelin
+--function CharAdded(Char)
+--	local Humanoid = Char:WaitForChild("Humanoid")
+--	local NewTool = Jav:Clone()
+--	NewTool.Parent = workspace:WaitForChild(Char.Name)
+--	Humanoid:EquipTool(NewTool)
+--end
+
+--game.Players.PlayerAdded:Connect(function(Player)
+--	Player.CharacterAdded:Connect(CharAdded)
+--end)

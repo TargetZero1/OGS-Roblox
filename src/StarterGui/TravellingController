@@ -1,0 +1,44 @@
+TransitionEvent = game.ReplicatedStorage.Events.StartTransition
+TransitionBackground = script.Parent.Transition.TransitionBackground
+Fill = TransitionBackground.Bar.Fill
+DestinationText = TransitionBackground.DestinationText
+
+PlayerControls = require(game.Players.LocalPlayer.PlayerScripts.PlayerModule):GetControls()
+
+Debounce = true
+
+UIS = 
+	{
+		script.Parent:WaitForChild("Lobby"),
+		script.Parent:WaitForChild("Running"),
+		script.Parent:WaitForChild("Swimming"),
+		script.Parent:WaitForChild("Javelin"),
+		script.Parent:WaitForChild("Other")
+	}
+
+function ChangeUI(UIName)
+	for _, UI in UIS do
+		UI.Enabled = UI.Name == UIName
+	end
+end
+
+function Start(Destination,TimeAmount)
+	if not Debounce then return end
+	Debounce = false
+	PlayerControls:Disable()
+	DestinationText.Text = Destination
+	TransitionBackground.Position = UDim2.new(0,0,-1,0)
+	TransitionBackground:TweenPosition(UDim2.new(0,0,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.3)	
+	TransitionBackground.Visible = true
+	ChangeUI(Destination)
+	Fill.Size = UDim2.new(0,0,1,0)
+	Fill:TweenSize(UDim2.new(1,0,1,0),Enum.EasingDirection.Out,Enum.EasingStyle.Linear,TimeAmount)
+	wait(TimeAmount)
+	TransitionBackground:TweenPosition(UDim2.new(0,0,1,0),Enum.EasingDirection.Out,Enum.EasingStyle.Sine,0.3)
+	wait(0.3)
+	TransitionBackground.Visible = false
+	PlayerControls:Enable()
+	Debounce = true
+end
+
+TransitionEvent.OnClientEvent:Connect(Start)
